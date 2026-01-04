@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+    <BodyPartDef Name="DegeneracyPartBase" Abstract="True">
+        <hitPoints>20</hitPoints>
+        <skinCovered>true</skinCovered>
+		<permanentInjuryChanceFactor>0</permanentInjuryChanceFactor>
+        <canSuggestAmputation>false</canSuggestAmputation>
+    </BodyPartDef>
+
+    <BodyPartDef ParentName="DegeneracyPartBase">
+        <defName>Explicity_Anus</defName>
+        <label>anus</label>
+    </BodyPartDef>
+
+    <BodyPartDef ParentName="DegeneracyPartBase">
+        <defName>Explicity_Chest</defName>
+        <label>chest</label>
+    </BodyPartDef>
+</Defs>

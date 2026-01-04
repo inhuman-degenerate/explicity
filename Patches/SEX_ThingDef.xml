@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Patch>
+    <Operation Class="PatchOperationReplace">
+        <xpath>/Defs/ThingDef[defName="SEX_Penis"]/label</xpath>
+        <value>
+            <label>penis</label>
+        </value>
+    </Operation>
+    <Operation Class="PatchOperationReplace">
+        <xpath>/Defs/ThingDef[defName="SEX_Penis"]/description</xpath>
+        <value>
+            <description>A biological human penis. Penises produce sperm cells for reproduction.</description>
+        </value>
+    </Operation>
+
+    <Operation Class="PatchOperationReplace">
+        <xpath>/Defs/ThingDef[defName="SEX_Womb"]/label</xpath>
+        <value>
+            <label>vagina</label>
+        </value>
+    </Operation>
+    <Operation Class="PatchOperationReplace">
+        <xpath>/Defs/ThingDef[defName="SEX_Womb"]/description</xpath>
+        <value>
+            <description>A biological human vagina and uterus. Uteri produce ovum cells for reproduction.</description>
+        </value>
+    </Operation>
+</Patch>

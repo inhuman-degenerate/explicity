@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+    <name>Explicity</name>
+    <author>InhumanDegenerate</author>
+    <supportedVersions>
+        <li>1.6</li>
+    </supportedVersions>
+    <packageId>InhumanDegenerate.Explicity</packageId>
+    <modDependencies>
+        <li>
+            <packageId>brrainz.harmony</packageId>
+            <displayName>Harmony</displayName>
+            <steamWorkshopUrl>steam://url/CommunityFilePage/2009463077</steamWorkshopUrl>
+        </li>
+        <li>
+            <packageId>LovelyDovey.Sex.WithRosaline</packageId>
+            <displayName>Intimacy - Gender Works</displayName>
+            <steamWorkshopUrl>steam://url/CommunityFilePage/3534254491</steamWorkshopUrl>
+        </li>
+    </modDependencies>
+    <loadAfter>
+		<li>LovelyDovey.Sex.WithRosaline</li>
+	</loadAfter>
+</ModMetaData>

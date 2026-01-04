@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+    <Operation Class="PatchOperationAdd">
+        <xpath>Defs/BodyDef[defName = "Human"]/corePart/parts</xpath>
+        <value>
+            <li>
+                <def>Explicity_Anus</def>
+                <coverage>0</coverage>
+                <height>Bottom</height>
+                <depth>Inside</depth>
+                <groups>
+                    <li>Torso</li>
+                </groups>
+            </li>
+            <li>
+                <def>Explicity_Chest</def>
+                <coverage>0.02</coverage>
+                <height>Top</height>
+                <depth>Outside</depth>
+                <groups>
+                    <li>Torso</li>
+                </groups>
+            </li>
+        </value>
+    </Operation>
+</Patch>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Patch>
+    <Operation Class="PatchOperationReplace">
+        <xpath>/Defs/BodyPartDef[defName="SEX_Reproduction"]/label</xpath>
+        <value>
+            <label>genitals</label>
+        </value>
+    </Operation>
+
+    <Operation Class="PatchOperationReplace">
+        <xpath>/Defs/BodyPartDef[defName="SEX_Reproduction"]/hitPoints</xpath>
+        <value>
+            <hitPoints>20</hitPoints>
+        </value>
+    </Operation>
+</Patch>

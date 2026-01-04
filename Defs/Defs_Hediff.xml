@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+    <HediffDef ParentName="SEX_ReproductiveOrganHediffBase">
+        <defName>Explicity_Anus</defName>
+        <label>anus</label>
+        <description>A biological human anus.</description>
+        <hediffClass>Explicity.AnusHediff</hediffClass>
+    </HediffDef>
+
+    <HediffDef ParentName="SEX_ReproductiveOrganHediffBase">
+        <defName>Explicity_Breasts</defName>
+        <label>breasts</label>
+        <description>A biological pair of breasts.</description>
+        <hediffClass>Explicity.BreastsHediff</hediffClass>
+        <renderNodeProperties>
+            <li Class="Explicity.PawnRenderNodeProperties_Breasts">
+                <parentTagDef>Body</parentTagDef>
+                <anchorTag>Body</anchorTag>
+            </li>
+        </renderNodeProperties>
+    </HediffDef>
+</Defs>
