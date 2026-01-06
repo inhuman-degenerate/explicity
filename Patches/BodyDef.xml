@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Patch>
     <Operation Class="PatchOperationAdd">
-        <xpath>Defs/BodyDef[defName = "Human"]/corePart/parts</xpath>
+        <xpath>Defs/BodyDef[defName="Human"]/corePart/parts</xpath>
         <value>
             <li>
                 <def>Explicity_Anus</def>
@@ -23,4 +23,22 @@
             </li>
         </value>
     </Operation>
+
+    <!-- <Operation Class="PatchOperationConditional">
+        <xpath>/Defs/BodyPartDef[defName="SEX_Reproduction"]</xpath>
+        <match Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef/corePart/parts</xpath>
+            <value>
+                <li>
+                    <def>Explicity_Genitals</def>
+                    <coverage>0.01</coverage>
+                    <height>Bottom</height>
+                    <depth>Outside</depth>
+                    <groups>
+                        <li>Torso</li>
+                    </groups>
+                </li>
+            </value>
+        </match>
+    </Operation> -->
 </Patch>

@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
-    <HediffDef ParentName="SEX_ReproductiveOrganHediffBase">
+    <HediffDef Name="Explicity_BodypartHediffBase" Abstract="True">
+        <defaultLabelColor>(1,0,0.5)</defaultLabelColor>
+        <isBad>false</isBad>
+        <priceImpact>false</priceImpact>
+        <countsAsAddedPartOrImplant>false</countsAsAddedPartOrImplant>
+        <allowMothballIfLowPriorityWorldPawn>true</allowMothballIfLowPriorityWorldPawn>
+        <keepOnBodyPartRestoration>true</keepOnBodyPartRestoration>
+    </HediffDef>
+
+    <HediffDef ParentName="Explicity_BodypartHediffBase">
         <defName>Explicity_Anus</defName>
         <label>anus</label>
         <description>A biological human anus.</description>
         <hediffClass>Explicity.AnusHediff</hediffClass>
     </HediffDef>
 
-    <HediffDef ParentName="SEX_ReproductiveOrganHediffBase">
+    <HediffDef ParentName="Explicity_BodypartHediffBase">
         <defName>Explicity_Breasts</defName>
         <label>breasts</label>
         <description>A biological pair of breasts.</description>
@@ -18,5 +27,19 @@
                 <anchorTag>Body</anchorTag>
             </li>
         </renderNodeProperties>
+    </HediffDef>
+
+    <HediffDef ParentName="Explicity_BodypartHediffBase">
+        <defName>Explicity_Penis</defName>
+        <label>penis</label>
+        <description>A biological human penis.</description>
+        <hediffClass>Explicity.PenisHediff</hediffClass>
+    </HediffDef>
+
+    <HediffDef ParentName="Explicity_BodypartHediffBase">
+        <defName>Explicity_Vagina</defName>
+        <label>vagina</label>
+        <description>A biological human vagina.</description>
+        <hediffClass>Explicity.VaginaHediff</hediffClass>
     </HediffDef>
 </Defs>

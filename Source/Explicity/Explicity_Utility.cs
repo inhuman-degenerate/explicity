@@ -8,7 +8,7 @@ namespace Explicity
     {
         public static class HediffDefOf
         {
-            public static readonly HediffDef Lactating = HediffDef.Named("Lactating");
+            public static readonly HediffDef Lactating = DefDatabase<HediffDef>.GetNamed("Lactating", false);
         }
 
         public static void AddHediff(Pawn pawn, HediffDef hediffDef, BodyPartRecord part)
@@ -72,15 +72,15 @@ namespace Explicity
                 else if (bodyType == BodyTypeDefOf.Thin) return 0.8f;
                 else return 1f;
             }
-            else if (part == Intimacy.BodyPartDefOf.SEX_Reproduction)
-            {
-                if (bodyType == BodyTypeDefOf.Fat) return 0.8f;
-                else if (bodyType == BodyTypeDefOf.Female) return 1.0f;
-                else if (bodyType == BodyTypeDefOf.Hulk) return 0.9f;
-                else if (bodyType == BodyTypeDefOf.Male) return 1.0f;
-                else if (bodyType == BodyTypeDefOf.Thin) return 0.9f;
-                else return 1f;
-            }
+            // else if (part == Intimacy.BodyPartDefOf.SEX_Reproduction)
+            // {
+            //     if (bodyType == BodyTypeDefOf.Fat) return 0.8f;
+            //     else if (bodyType == BodyTypeDefOf.Female) return 1.0f;
+            //     else if (bodyType == BodyTypeDefOf.Hulk) return 0.9f;
+            //     else if (bodyType == BodyTypeDefOf.Male) return 1.0f;
+            //     else if (bodyType == BodyTypeDefOf.Thin) return 0.9f;
+            //     else return 1f;
+            // }
 
             return 0f;
         }
@@ -100,7 +100,7 @@ namespace Explicity
                 if (aphrodor && ExplicityMod.Settings.BreastsOnFemaleAphrodors) return true;
                 else if (phallor && ExplicityMod.Settings.BreastsOnFemalePhallors) return true;
                 else if (gestor && ExplicityMod.Settings.BreastsOnFemaleGestors) return true;
-                return true;
+                return false;
             }
             else if (pawn.gender == Gender.Male)
             {

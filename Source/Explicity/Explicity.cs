@@ -7,11 +7,13 @@ namespace Explicity
     public class ExplicityMod : Mod
     {
         public static ExplicitySettings Settings;
+        // public static bool Turk;
 
         public ExplicityMod(ModContentPack content) : base(content)
         {
             Settings = GetSettings<ExplicitySettings>();
-            // TextureCache = ApparelTextureCache;
+            // Turk = LoadedModManager.RunningModsListForReading.Any(m => m.PackageId == "author.othermod");
+
             var harmony = new Harmony("InhumanDegenerate.Explicity");
             harmony.PatchAll();
         }

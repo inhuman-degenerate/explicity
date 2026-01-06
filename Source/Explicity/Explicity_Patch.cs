@@ -75,17 +75,20 @@ namespace Explicity
 
             //
 
-            Hediff phallor = ExplicityUtility.GetHediff(__result, Intimacy.HediffDefOf.SEX_Penis);
-            Hediff gestor = ExplicityUtility.GetHediff(__result, Intimacy.HediffDefOf.SEX_Womb);
-            bool isPhallor = phallor != null;
-            bool isGestor = gestor != null;
+            // Hediff phallor = ExplicityUtility.GetHediff(__result, Intimacy.HediffDefOf.SEX_Penis);
+            // Hediff gestor = ExplicityUtility.GetHediff(__result, Intimacy.HediffDefOf.SEX_Womb);
+            // bool isPhallor = phallor != null;
+            // bool isGestor = gestor != null;
 
-            if (isPhallor) ExplicityUtility.SizeHediff(__result, phallor, Intimacy.BodyPartDefOf.SEX_Reproduction);
-            if (isGestor) ExplicityUtility.SizeHediff(__result, gestor, Intimacy.BodyPartDefOf.SEX_Reproduction);
+            // if (isPhallor) ExplicityUtility.SizeHediff(__result, phallor, Intimacy.BodyPartDefOf.SEX_Reproduction);
+            // if (isGestor) ExplicityUtility.SizeHediff(__result, gestor, Intimacy.BodyPartDefOf.SEX_Reproduction);
 
             //
 
-            if (!ExplicityUtility.ShouldHaveBreasts(__result, isPhallor, isGestor))
+            // if (!ExplicityUtility.ShouldHaveBreasts(__result, isPhallor, isGestor))
+            //     return;
+
+            if (__result.gender != Gender.Female)
                 return;
 
             BodyPartRecord chest = ExplicityUtility.GetBodyPart(__result, BodyPartDefOf.Explicity_Chest);

@@ -1,5 +1,4 @@
 using System;
-using LoveyDoveySexWithRosaline;
 using Verse;
 
 namespace Explicity
@@ -10,8 +9,10 @@ namespace Explicity
         public static string[] LabelExternals = { "tiny", "small", "average", "large", "huge" };
     }
 
-    public class ExplicityHediff : Hediff_Reproductive
+    public class ExplicityHediff : Hediff
     {
+        public override bool ShouldRemove => false;
+
         public string Name => def.label;
 
         private int ScaleCache = -1;
@@ -41,6 +42,15 @@ namespace Explicity
         public override bool Visible
         {
             get => ExplicityMod.Settings.ShowHediffs;
+        }
+
+
+        public override void Tick()
+        {
+        }
+
+        public override void TickInterval(int delta)
+        {
         }
     }
 

@@ -20,7 +20,7 @@ def GetFacing(name: str) -> str | None:
 
     return None
 
-def MaskProcess(image):
+def MaskProcess(image, overlay = False):
     width, height = image.size
     pixels = image.load()
 
@@ -28,19 +28,23 @@ def MaskProcess(image):
         for x in range(width):
             r, g, b, a = pixels[x, y]
 
-            r = 255 if a > 0 else 0
-            g = 0
-            b = 0
-            a = 255
+            a / 4
+
+            r = 255 if a > 63 and not overlay else 0
+            g = 255 if a > 60 and overlay else 0
+            a = 255 if r == 255 or g == 255 else 0
+            if overlay and g == 0:
+                a = 0
+
+                #  if g == 0 else 0
                 
-            pixels[x, y] = r, g, b, a
+            pixels[x, y] = r, g, 0, a
 
     return image
 
 def BurnProcess(image, blur = True):
     arr = numpy.array(image)
-    mask = arr[:, :, 0] > 0
-
+    mask = (arr[:, :, 0] > 0) | (arr[:, :, 1] > 0)
     eroded = binary_erosion(mask, iterations=6)
 
     border = mask & (~eroded)
@@ -51,9 +55,18 @@ def BurnProcess(image, blur = True):
 
     image = Image.fromarray(out, "RGBA")
 
-    if blur: image = image.filter(ImageFilter.GaussianBlur(radius=1))
+    return image
+
+def MixProcess(image, image2 = None) -> Image:
+
+    background = Image.new("RGBA", (256, 256), (0, 0, 0, 255))
+    image = Image.alpha_composite(background, image)
+    if image2 != None: image = Image.alpha_composite(image, image2)
 
     return image
+
+def clamp(n, min_val, max_val):
+    return max(min_val, min(n, max_val))
 
 def OutlineProcess(image):
     width, height = image.size
@@ -63,46 +76,52 @@ def OutlineProcess(image):
         for x in range(width):
             r, g, b, a = pixels[x, y]
 
-            lightness = (r + g + b) / (3 * 255)
+            darkness = 255 - ((r + g + b) // 3)
 
-            alpha_norm = a / 255
-            alpha_weight = alpha_norm ** 0.5
+            # alpha_norm = a / 255
+            # alpha_weight = alpha_norm ** 0.5
 
-            darkness = int((1 - lightness) * a)
+            # darkness = int((1 - lightness) * a)
 
-            if a > 128:
+            if a > 32:
                 if darkness > 240:
                     a = 255
                     r = 255
-                    g = 0
-                    b = 0
                 else:
                     a = 255
                     r = 0
-                    g = 0
-                    b = 0
             else:
                 a = 0
                 r = 0
-                g = 0
-                b = 0
-            
                 
-            pixels[x, y] = r, g, b, a
+            pixels[x, y] = r, 0, 0, a
+
+    return image
+
+def ReOutlineProcess(image):
+    width, height = image.size
+    pixels = image.load()
+
+    for y in range(height):
+        for x in range(width):
+            r, g, b, a = pixels[x, y]
+
+            r = 255 if r > 120 else 0
+                
+            pixels[x, y] = r, 0, 0, 255
 
     return image
 
 def ThickenOutline(image, thickness):
     arr = numpy.array(image)
-
     outline_mask = arr[:, :, 0] > 0
+
     thick_mask = binary_dilation(outline_mask, iterations=thickness)
 
-    out = numpy.zeros_like(arr)
+    out = arr.copy()
     out[thick_mask] = [255, 0, 0, 255]
 
     return Image.fromarray(out, "RGBA")
-
 
 def MakeDir(path: str):
     Path(path).mkdir(parents=True, exist_ok=True)
@@ -130,12 +149,11 @@ def MakeBodyMasks():
 
         bodyMask = Image.open(bodyInput).convert("RGBA")
         bodyMask = MaskProcess(bodyMask)
-        bodyMask.save(bodyOutputMask)
-        bodyBurn = bodyMask
-        bodyBurn = BurnProcess(bodyBurn)
-        bodyBurn.save(bodyOutputBurn)
+        bodySaveMask = MixProcess(bodyMask)
+        bodySaveMask.save(bodyOutputMask)
 
-        bodyMask = Image.open(bodyInput).convert("RGBA")
+        bodyBurn = BurnProcess(bodyMask)
+        bodyBurn.save(bodyOutputBurn)
 
         breastNames = []
         breastNames.append(body + "_0_" + facing)
@@ -143,6 +161,9 @@ def MakeBodyMasks():
         breastNames.append(body + "_2_" + facing)
         breastNames.append(body + "_3_" + facing)
         breastNames.append(body + "_4_" + facing)
+
+        isNorth = facing == "north"
+        isSouth = facing == "south"
 
         for breastName in breastNames:
             breastInput = os.path.join(dirInputBreasts, "Breasts_" + breastName + ".png")
@@ -153,27 +174,36 @@ def MakeBodyMasks():
             bodyOutputBurn = os.path.join(dirOutput, "Burn_" + breastName + ".png")
 
             breastMask = Image.open(breastInput).convert("RGBA")
-            breastMask = Image.alpha_composite(bodyMask, breastMask)
+            breastMask = MaskProcess(breastMask, True)
 
-            breastMask = MaskProcess(breastMask)
+            if isNorth:
+                breastMask = MixProcess(breastMask, bodyMask)
+            else:
+                breastMask = MixProcess(bodyMask, breastMask)
+
             breastMask.save(bodyOutputMask)
-
-            isNorth = facing == "north"
             
-            breastBurn = breastMask
-            breastBurn = BurnProcess(breastBurn, isNorth)
+            breastBurn = BurnProcess(breastMask, isNorth)
 
             if not isNorth:
-                # bodyOutline = Image.open(bodyInput).convert("RGBA")
-                # bodyOutline = OutlineProcess(bodyOutline)
-
+                breastBurn= Image.alpha_composite(breastBurn, ThickenOutline(breastBurn, 1))
                 breastOutline = Image.open(breastInput).convert("RGBA")
                 breastOutline = OutlineProcess(breastOutline)
                 breastOutline = ThickenOutline(breastOutline, 1)
 
-                breastBurn = Image.alpha_composite(breastBurn, breastOutline)
+                breastBurn = Image.alpha_composite(bodyBurn, breastOutline)
+
+                if isSouth:
+                    breastOverlayInput = os.path.join(dirOutput, "Burn_" + body + "_Overlay" + ".png")
+                    if not FileExists(breastOverlayInput):
+                        continue
+                    breastOverlay = Image.open(breastOverlayInput).convert("RGBA")
+                    breastBurn = Image.alpha_composite(breastBurn, breastOverlay)
+
+                breastBurn = breastBurn.filter(ImageFilter.GaussianBlur(radius=1))
+                breastBurn = ReOutlineProcess(breastBurn)
+
             breastBurn = breastBurn.filter(ImageFilter.GaussianBlur(radius=0.5))
-            
             breastBurn.save(bodyOutputBurn)
             
 MakeBodyMasks()

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Patch>
+    <Operation Class="PatchOperationConditional">
+        <xpath>/Defs/BodyPartDef[defName="SEX_Reproduction"]</xpath>
+        <match Class="PatchOperationSequence">
+            <operations>
+                <!-- BodyPartDef -->
+                <!-- SEX_Reproduction -->
+                <li Class="PatchOperationReplace">
+                    <xpath>/Defs/BodyPartDef[defName="SEX_Reproduction"]/label</xpath>
+                    <value>
+                        <label>genitals</label>
+                    </value>
+                </li>
+
+                <li Class="PatchOperationReplace">
+                    <xpath>/Defs/BodyPartDef[defName="SEX_Reproduction"]/hitPoints</xpath>
+                    <value>
+                        <hitPoints>20</hitPoints>
+                    </value>
+                </li>
+
+                <!-- HediffDef -->
+                <!-- SEX_Penis -->
+                <li Class="PatchOperationAdd">
+                    <xpath>/Defs/HediffDef[defName="SEX_Penis"]</xpath>
+                    <value>
+                        <hediffClass>Explicity.PenisHediff</hediffClass>
+                    </value>
+                </li>
+
+                <li Class="PatchOperationReplace">
+                    <xpath>/Defs/HediffDef[defName="SEX_Penis"]/label</xpath>
+                    <value>
+                        <label>penis</label>
+                    </value>
+                </li>
+
+                <li Class="PatchOperationReplace">
+                    <xpath>/Defs/HediffDef[defName="SEX_Penis"]/description</xpath>
+                    <value>
+                        <description>A biological human penis.</description>
+                    </value>
+                </li>
+
+                <!-- SEX_Womb -->
+                <li Class="PatchOperationAdd">
+                    <xpath>/Defs/HediffDef[defName="SEX_Womb"]</xpath>
+                    <value>
+                        <hediffClass>Explicity.VaginaHediff</hediffClass>
+                    </value>
+                </li>
+
+                <li Class="PatchOperationReplace">
+                    <xpath>/Defs/HediffDef[defName="SEX_Womb"]/label</xpath>
+                    <value>
+                        <label>vagina</label>
+                    </value>
+                </li>
+
+                <li Class="PatchOperationReplace">
+                    <xpath>/Defs/HediffDef[defName="SEX_Womb"]/description</xpath>
+                    <value>
+                        <description>A biological human vagina.</description>
+                    </value>
+                </li>
+
+                <!-- ThingDef -->
+                <!-- SEX_Penis -->
+                <li Class="PatchOperationReplace">
+                    <xpath>/Defs/ThingDef[defName="SEX_Penis"]/label</xpath>
+                    <value>
+                        <label>penis</label>
+                    </value>
+                </li>
+
+                <li Class="PatchOperationReplace">
+                    <xpath>/Defs/ThingDef[defName="SEX_Penis"]/description</xpath>
+                    <value>
+                        <description>A biological human penis. Penises produce sperm cells for
+                            reproduction.</description>
+                    </value>
+                </li>
+
+                <!-- ThingDef -->
+                <!-- SEX_Womb -->
+                <li Class="PatchOperationReplace">
+                    <xpath>/Defs/ThingDef[defName="SEX_Womb"]/label</xpath>
+                    <value>
+                        <label>vagina</label>
+                    </value>
+                </li>
+
+                <li Class="PatchOperationReplace">
+                    <xpath>/Defs/ThingDef[defName="SEX_Womb"]/description</xpath>
+                    <value>
+                        <description>A biological human vagina and uterus. Uteri produce ovum cells
+                            for reproduction.</description>
+                    </value>
+                </li>
+            </operations>
+        </match>
+    </Operation>
+</Patch>
