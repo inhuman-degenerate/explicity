@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Patch>
+    <Operation Class="PatchOperationAdd">
+        <xpath>/Defs/ThingDef[defName="Apparel_TribalA"]/apparel/tags</xpath>
+        <value>
+            <li>Explicity</li>
+        </value>
+    </Operation>
+
+    <Operation Class="PatchOperationAdd">
+        <xpath>/Defs/ThingDef[defName="Apparel_BasicShirt"]/apparel/tags</xpath>
+        <value>
+            <li>Explicity</li>
+        </value>
+    </Operation>
+
+    <Operation Class="PatchOperationAdd">
+        <xpath>/Defs/ThingDef[defName="Apparel_CollarShirt"]/apparel/tags</xpath>
+        <value>
+            <li>Explicity</li>
+        </value>
+    </Operation>
+</Patch>

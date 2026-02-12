@@ -14,6 +14,12 @@
         <label>anus</label>
         <description>A biological human anus.</description>
         <hediffClass>Explicity.AnusHediff</hediffClass>
+        <renderNodeProperties>
+            <li Class="Explicity.PawnRenderNodeProperties_Anus">
+                <parentTagDef>Body</parentTagDef>
+                <anchorTag>Body</anchorTag>
+            </li>
+        </renderNodeProperties>
     </HediffDef>
 
     <HediffDef ParentName="Explicity_BodypartHediffBase">
@@ -34,6 +40,12 @@
         <label>penis</label>
         <description>A biological human penis.</description>
         <hediffClass>Explicity.PenisHediff</hediffClass>
+        <renderNodeProperties>
+            <li Class="Explicity.PawnRenderNodeProperties_Penis">
+                <parentTagDef>Body</parentTagDef>
+                <anchorTag>Body</anchorTag>
+            </li>
+        </renderNodeProperties>
     </HediffDef>
 
     <HediffDef ParentName="Explicity_BodypartHediffBase">

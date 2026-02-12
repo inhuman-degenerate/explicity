@@ -87,8 +87,9 @@ namespace Explicity
 
         public static void SizeHediff(Pawn pawn, Hediff hediff, BodyPartDef part, float baseSize = 0f)
         {
-            if (baseSize == 0f) baseSize = Rand.Value;
-            hediff.Severity = baseSize * BodyTypeSizeFactor(pawn, part);
+            // if (baseSize == 0f) baseSize = Rand.Value;
+            // hediff.Severity = baseSize * BodyTypeSizeFactor(pawn, part);
+            hediff.Severity = 0.5f;
         }
 
         public static bool ShouldHaveBreasts(Pawn pawn, bool phallor, bool gestor)

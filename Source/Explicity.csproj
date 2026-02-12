@@ -22,9 +22,5 @@
             Include="C:\Program Files (x86)\Steam\steamapps\workshop\content\294100\2009463077\Current\Assemblies\0Harmony.dll">
             <Private>False</Private>
         </Reference>
-        <Reference
-            Include="C:\Program Files (x86)\Steam\steamapps\workshop\content\294100\3534254491\1.6\Assemblies\LoveyDoveySexWithRosaline.dll">
-            <Private>False</Private>
-        </Reference>
     </ItemGroup>
 </Project>

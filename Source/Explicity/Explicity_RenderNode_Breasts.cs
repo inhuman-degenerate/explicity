@@ -1,7 +1,6 @@
 using Verse;
 using UnityEngine;
 using System.Collections.Generic;
-using RimWorld;
 
 namespace Explicity
 {
@@ -9,8 +8,8 @@ namespace Explicity
     {
         public override Vector3 OffsetFor(PawnRenderNode node, PawnDrawParms parms, out Vector3 pivot)
         {
-            pivot = PivotFor(node, parms);
             float depth = (parms.facing == Rot4.North) ? -0.002f : 0.002f;
+            pivot = PivotFor(node, parms);
             Vector3 vector = new Vector3(0, depth, 0);
 
             return vector;

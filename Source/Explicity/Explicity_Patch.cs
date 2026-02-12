@@ -8,7 +8,7 @@ using Verse;
 namespace Explicity
 {
     [HarmonyPatch(typeof(PawnRenderNode_Body), "GraphicFor")]
-    public static class PawnRenderNode_Body_GraphicFor_Patch
+    public static class Patch_PawnRenderNode_Body_GraphicFor
     {
         public static bool Prefix(PawnRenderNode_Body __instance, ref Pawn pawn, ref Graphic __result)
         {
@@ -30,13 +30,13 @@ namespace Explicity
     }
 
     [HarmonyPatch(typeof(ShaderUtility), "GetSkinShader")]
-    public static class ShaderUtility_GetSkinShader_Patch
+    public static class Patch_ShaderUtility_GetSkinShader
     {
-        public static bool IsDarkSkinned(Color color) => (color.r + color.g + color.b) < 260;
+        public static bool IsDarkSkinned(Color color) => (color.r + color.g + color.b) < 250;
 
         public static void Postfix(ref Pawn pawn, ref Shader __result)
         {
-            if (!pawn.RaceProps.Humanlike || !IsDarkSkinned(pawn.story.SkinColor) || __result != ShaderDatabase.CutoutSkin)
+            if (!pawn.RaceProps.Humanlike || __result != ShaderDatabase.CutoutSkin || !IsDarkSkinned(pawn.story.SkinColor))
                 return;
 
             __result = ShaderDatabase.Cutout;
@@ -44,7 +44,7 @@ namespace Explicity
     }
 
     [HarmonyPatch(typeof(Pawn_HealthTracker), "AddHediff", new Type[] { typeof(HediffDef), typeof(BodyPartRecord), typeof(DamageInfo?), typeof(DamageWorker.DamageResult) })]
-    public static class Pawn_HealthTracker_AddHediff_Patch
+    public static class Patch_Pawn_HealthTracker_AddHediff
     {
         public static readonly FieldInfo Access_Pawn = AccessTools.Field(typeof(Pawn_HealthTracker), "pawn");
 
@@ -66,12 +66,17 @@ namespace Explicity
     }
 
     [HarmonyPatch(typeof(PawnGenerator), "GeneratePawn", new Type[] { typeof(PawnGenerationRequest) })]
-    public static class PawnGenerator_GeneratePawn_Patch
+    public static class Patch_PawnGenerator_GeneratePawn
     {
         public static void Postfix(ref Pawn __result)
         {
-            // BodyPartRecord anus = ExplicityUtility.GetBodyPart(__result, BodyPartDefOf.Explicity_Anus);
-            // if (anus != null) ExplicityUtility.AddHediff(__result, HediffDefOf.Explicity_Anus, anus);
+            if (ExplicityMod.GenderWorks)
+            {
+
+            }
+
+            BodyPartRecord anus = ExplicityUtility.GetBodyPart(__result, BodyPartDefOf.Explicity_Anus);
+            if (anus != null) ExplicityUtility.AddHediff(__result, HediffDefOf.Explicity_Anus, anus);
 
             //
 
@@ -88,8 +93,15 @@ namespace Explicity
             // if (!ExplicityUtility.ShouldHaveBreasts(__result, isPhallor, isGestor))
             //     return;
 
+            BodyPartRecord genitals = ExplicityUtility.GetBodyPart(__result, BodyPartDefOf.Explicity_Genitals);
+
             if (__result.gender != Gender.Female)
+            {
+                if (genitals != null) ExplicityUtility.AddHediff(__result, HediffDefOf.Explicity_Penis, genitals);
                 return;
+            }
+
+            if (genitals != null) ExplicityUtility.AddHediff(__result, HediffDefOf.Explicity_Vagina, genitals);
 
             BodyPartRecord chest = ExplicityUtility.GetBodyPart(__result, BodyPartDefOf.Explicity_Chest);
             if (chest != null) ExplicityUtility.AddHediff(__result, HediffDefOf.Explicity_Breasts, chest);

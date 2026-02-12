@@ -21,24 +21,15 @@
                     <li>Torso</li>
                 </groups>
             </li>
+            <li>
+                <def>Explicity_Genitals</def>
+                <coverage>0.01</coverage>
+                <height>Bottom</height>
+                <depth>Outside</depth>
+                <groups>
+                    <li>Torso</li>
+                </groups>
+            </li>
         </value>
     </Operation>
-
-    <!-- <Operation Class="PatchOperationConditional">
-        <xpath>/Defs/BodyPartDef[defName="SEX_Reproduction"]</xpath>
-        <match Class="PatchOperationAdd">
-            <xpath>Defs/BodyDef/corePart/parts</xpath>
-            <value>
-                <li>
-                    <def>Explicity_Genitals</def>
-                    <coverage>0.01</coverage>
-                    <height>Bottom</height>
-                    <depth>Outside</depth>
-                    <groups>
-                        <li>Torso</li>
-                    </groups>
-                </li>
-            </value>
-        </match>
-    </Operation> -->
 </Patch>

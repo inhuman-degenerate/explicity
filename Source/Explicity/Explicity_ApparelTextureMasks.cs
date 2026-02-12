@@ -1,237 +1,255 @@
-using System.Collections.Generic;
-using System.Reflection;
-using HarmonyLib;
-using RimWorld;
-using UnityEngine;
-using Verse;
+// using System.Collections.Generic;
+// using System.Reflection;
+// using HarmonyLib;
+// using RimWorld;
+// using UnityEngine;
+// using Verse;
 
-namespace Explicity
-{
-    [HarmonyPatch(typeof(ApparelGraphicRecordGetter), "TryGetGraphicApparel")]
-    public static class Patch_TryGetGraphicApparel
-    {
-        static void Prefix(Apparel apparel, BodyTypeDef bodyType, bool forStatue)
-        {
-            ApparelTextureCache.Apparel = apparel;
-        }
+// namespace Explicity
+// {
+//     [HarmonyPatch(typeof(ApparelGraphicRecordGetter), "TryGetGraphicApparel")]
+//     public static class Patch_ApparelGraphicRecordGetter_TryGetGraphicApparel
+//     {
+//         static void Prefix(Apparel apparel, BodyTypeDef bodyType)
+//         {
+//             ApparelTextureCache.Key.Apparel = apparel;
+//             ApparelTextureCache.Key.BodyType = bodyType.defName;
+//             ApparelTextureCache.Key.BreastSize = ExplicityUtility.GetHediff(apparel.Wearer,
+//             HediffDefOf.Explicity_Breasts)?.Scale ?? -1;
+//         }
+//     }
 
-        static void Postfix()
-        {
-            ApparelTextureCache.Apparel = null;
-        }
-    }
+//     [HarmonyPatch]
+//     public static class Patch_GraphicDatabase_Get
+//     {
+//         static MethodBase TargetMethod()
+//         {
+//             return AccessTools.Method(typeof(GraphicDatabase), "Get", new[] { typeof(string), typeof(Shader),
+//             typeof(Vector2), typeof(Color) })?.MakeGenericMethod(typeof(Graphic_Multi));
+//         }
 
-    [HarmonyPatch]
-    public static class GraphicDatabase_Get_Patch
-    {
-        static MethodBase TargetMethod()
-        {
-            return AccessTools.Method(typeof(GraphicDatabase), nameof(GraphicDatabase.Get), new[] { typeof(string), typeof(Shader), typeof(Vector2), typeof(Color) })?.MakeGenericMethod(typeof(Graphic_Multi));
-        }
+//         static bool Prefix(ref string path, ref Graphic __result)
+//         {
+//             if (!path.StartsWith("Things/Pawn/Humanlike/Apparel/") || ApparelTextureCache.Key.Apparel == null ||
+//             !ApparelTextureCache.Key.Apparel.def.apparel.tags.Contains("Explicity"))
+//                 return true;
 
-        static bool Prefix(ref string path, ref Graphic __result)
-        {
-            if (!path.StartsWith("Things/Pawn/Humanlike/Apparel/") || ApparelTextureCache.Apparel == null || ApparelTextureCache.Apparel.Wearer == null)
-                return true;
+//             ApparelTextureCache.Key.ApparelPath = path;
+//             if (ApparelTextureCache.Graphics.TryGetValue(ApparelTextureCache.Key.Data(), out var graphic))
+//             {
+//                 __result = graphic;
+//                 return false;
+//             }
 
-            ExplicityHediff hediff = ExplicityUtility.GetHediff(ApparelTextureCache.Apparel.Wearer, HediffDefOf.Explicity_Breasts);
-            int breastSize = hediff?.Scale ?? -1;
+//             if (!ApparelTextureCache.TryBake(ApparelTextureCache.Key, out var baked))
+//             {
+//                 ApparelTextureCache.Failed.Add(ApparelTextureCache.Key.Data());
+//                 return true;
+//             }
 
-            if (ApparelTextureCache.Graphics.TryGetValue((path, breastSize), out var graphic))
-            {
-                __result = graphic;
-                return false;
-            }
+//             ApparelTextureCache.Graphics[ApparelTextureCache.Key.Data()] = baked;
+//             __result = baked;
 
-            if (!ApparelTextureCache.TryBake((path, breastSize), out var baked))
-            {
-                ApparelTextureCache.Failed.Add((path, breastSize));
-                return true;
-            }
+//             return false;
+//         }
+//     }
 
-            ApparelTextureCache.Graphics[(path, breastSize)] = baked;
-            __result = baked;
+//     //
 
-            return false;
-        }
-    }
+//     public class CustomApparelGraphic : Graphic_Multi
+//     {
+//         private static readonly AccessTools.FieldRef<Graphic_Multi, Material[]> MatsField =
+//         AccessTools.FieldRefAccess<Graphic_Multi, Material[]>("mats");
 
-    //
+//         public void Create(Texture2D[] textures)
+//         {
+//             Apparel apparel = ApparelTextureCache.Key.Apparel;
+//             data = apparel.def.graphicData;
+//             drawSize = data.drawSize;
+//             color = apparel.DrawColor;
+//             colorTwo = apparel.DrawColorTwo;
 
-    public class Graphic_Multi_Runtime : Graphic_Multi
-    {
-        private static readonly AccessTools.FieldRef<Graphic_Multi, Material[]> MatsField = AccessTools.FieldRefAccess<Graphic_Multi, Material[]>("mats");
+//             for (int i = 0; i < 4; i++)
+//             {
+//                 MaterialRequest req = new MaterialRequest
+//                 {
+//                     mainTex = textures[i],
+//                     maskTex = null,
+//                     shader = apparel.def.graphicData.shaderType.Shader,
+//                     color = color,
+//                     colorTwo = colorTwo,
+//                     shaderParameters = apparel.def.graphicData.shaderParameters,
+//                     renderQueue = apparel.def.graphicData.renderQueue
+//                 };
 
-        public void InitRuntime(
-            Texture2D[] textures,
-            Texture2D[] maskTextures,
-            GraphicData graphicData,
-            Shader shader,
-            Color color,
-            Color colorTwo,
-            List<ShaderParameter> shaderParameters,
-            int renderQueue
-        )
-        {
-            data = graphicData;
-            drawSize = graphicData.drawSize;
-            this.color = color;
-            this.colorTwo = colorTwo;
+//                 MatsField(this)[i] = MaterialPool.MatFrom(req);
+//             }
+//         }
+//     }
 
-            Material[] mats = new Material[4];
+//     public class ApparelTextureCacheKey
+//     {
+//         public Apparel Apparel;
+//         public string BodyType;
+//         public int BreastSize;
+//         public string ApparelPath;
 
-            for (int i = 0; i < 4; i++)
-            {
-                MaterialRequest req = new MaterialRequest
-                {
-                    mainTex = textures[i],
-                    maskTex = maskTextures?[i],
-                    shader = shader,
-                    color = color,
-                    colorTwo = colorTwo,
-                    shaderParameters = shaderParameters,
-                    renderQueue = renderQueue
-                };
+//         public (string, int) Data() => (ApparelPath, BreastSize);
+//     }
 
-                mats[i] = MaterialPool.MatFrom(req);
-            }
+//     public class ApparelTextureCache
+//     {
+//         public static readonly Dictionary<(string, int), Graphic> Graphics = new Dictionary<(string, int),
+//         Graphic>(); public static readonly HashSet<(string, int)> Failed = new HashSet<(string, int)>(); public
+//         static ApparelTextureCacheKey Key = new ApparelTextureCacheKey();
 
-            MatsField(this) = mats;
-        }
-    }
+//         public static bool TryBake(ApparelTextureCacheKey key, out Graphic result)
+//         {
+//             result = null;
 
-    public class ApparelTextureCache
-    {
-        public static readonly Dictionary<(string, int), Graphic> Graphics = new Dictionary<(string, int), Graphic>();
-        public static readonly HashSet<(string, int)> Failed = new HashSet<(string, int)>();
-        public static Apparel Apparel;
+//             if (key.BodyType == null || key.BodyType == "Fat")
+//                 return false;
 
-        public static bool TryBake((string apparelPath, int breastSize) key, out Graphic result)
-        {
-            result = null;
+//             int apparelSize = 0;
+//             Texture2D[] apparelTextures = LoadTextures(key.ApparelPath, ref apparelSize);
+//             if (apparelSize == 0 || apparelTextures == null)
+//                 return false;
 
-            BodyTypeDef bodyType = Apparel.Wearer.story.bodyType;
-            if (bodyType == null || bodyType == BodyTypeDefOf.Fat)
-                return false;
+//             string maskPath = $"Masks/Pawn/Humanlike/Bodies/Mask_{key.BodyType}_{key.BreastSize}".Replace("_-1", "");
 
-            int apparelSize = 0;
-            Texture2D[] apparelTextures = LoadTextures(key.apparelPath, ref apparelSize);
-            if (apparelSize == 0 || apparelTextures == null)
-                return false;
+//             Texture2D[] maskTextures = LoadTextures(maskPath, ref apparelSize);
+//             if (maskTextures == null)
+//                 return false;
 
-            string maskPath = $"Masks/Pawn/Humanlike/Bodies/Mask_{bodyType}_{key.breastSize}";
-            maskPath = maskPath.Replace("_-1", "");
-            string burnPath = maskPath.Replace("Mask_", "Burn_");
+//             // string breastPath = key.ApparelPath.Replace($"_{bodyType}", "_Fat");
+//             // Texture2D[] breastTextures = (key.BreastSize != -1) ? LoadTextures(breastPath, ref apparelSize) :
+//             null;
 
-            Texture2D[] maskTextures = LoadTextures(maskPath, ref apparelSize);
-            Texture2D[] burnTextures = LoadTextures(burnPath, ref apparelSize);
-            if (maskTextures == null || burnTextures == null)
-                return false;
+//             for (int i = 0; i < 3; i++)
+//             {
+//                 Color32[] color = apparelTextures[i].GetPixels32();
+//                 Color32[] mask = maskTextures[i].GetPixels32();
+//                 Color32 black = new Color32(0, 0, 0, 255);
 
+//                 // Color32[] breast = (breastTextures != null && (key.BreastSize > 1 || i == 1 || bodyType !=
+//                 BodyTypeDefOf.Female)) ? breastTextures[i].GetPixels32() : null;
 
-            string breastPath = key.apparelPath.Replace($"_{bodyType}", "_Fat");
-            Texture2D[] breastTextures = (key.breastSize != -1) ? LoadTextures(breastPath, ref apparelSize) : null;
+//                 for (int p = 0; p < color.Length; p++)
+//                 {
+//                     bool red = mask[p].r > 0;
+//                     bool blue = mask[p].b > 0;
 
-            for (int i = 0; i < 3; i++)
-            {
-                Color32[] color = apparelTextures[i].GetPixels32();
-                Color32[] mask = maskTextures[i].GetPixels32();
-                Color32[] burn = burnTextures[i].GetPixels32();
+//                     if (red && !blue) continue;
 
-                Color32[] breast = (breastTextures != null && (key.breastSize > 1 || i == 1 || bodyType != BodyTypeDefOf.Female)) ? breastTextures[i].GetPixels32() : null;
+//                     if (!red)
+//                     {
+//                         color[p] = black;
+//                         color[p].a = 0;
+//                     }
 
-                for (int p = 0; p < color.Length; p++)
-                {
-                    bool green = mask[p].g > 0;
+//                     if (blue)
+//                     {
+//                         if (color[p].a == 0) color[p].a = mask[p].b;
+//                         else
+//                         {
+//                             float fblue = (255 - mask[p].b) / 255f;
+//                             color[p].r = (byte)(color[p].r * fblue);
+//                             color[p].g = (byte)(color[p].g * fblue);
+//                             color[p].b = (byte)(color[p].b * fblue);
+//                         }
+//                     }
 
-                    if (i == 0 && breast != null && green && mask[p].r != 255)
-                    {
-                        color[p] = Color32.Lerp(breast[p], new Color32(0, 0, 0, 255), 0.2f);
-                    }
+//                     // bool green = mask[p].g > 0;
 
-                    //
+//                     // if (i == 0 && breast != null && green && mask[p].r != 255)
+//                     // {
+//                     //     color[p] = Color32.Lerp(breast[p], new Color32(0, 0, 0, 255), 0.2f);
+//                     // }
 
-                    if (color[p].a > mask[p].r && !green) color[p].a = 0;
+//                     //
 
-                    //
+//                     // if (color[p].a > mask[p].r && !green) color[p].a = 0;
 
-                    if (i == 1 && breast != null && green) color[p] = breast[p];
-                    if (i == 2 && breast != null && green) color[p] = breast[p];
+//                     // Red channel is used for apparel cutout
 
-                    float redness = (burn[p].r / -255f) + 1f;
-                    color[p].r = (byte)(color[p].r * redness);
-                    color[p].g = (byte)(color[p].g * redness);
-                    color[p].b = (byte)(color[p].b * redness);
+//                     //
 
-                    if (color[p].a < burn[p].r) color[p].a = burn[p].r;
-                }
+//                     // if (i == 1 && breast != null && green) color[p] = breast[p];
+//                     // if (i == 2 && breast != null && green) color[p] = breast[p];
 
-                apparelTextures[i].SetPixels32(color);
-                apparelTextures[i].Apply(true, false);
-            }
+//                     // float redness = (burn[p].r / -255f) + 1f;
+//                     // color[p].r = (byte)(color[p].r * redness);
+//                     // color[p].g = (byte)(color[p].g * redness);
+//                     // color[p].b = (byte)(color[p].b * redness);
 
-            apparelTextures[3] = apparelTextures[1];
+//                     // if (color[p].a < burn[p].r) color[p].a = burn[p].r;
+//                     // Blue channel is used for black outlines and inlines
+//                     // if (mask[p].b > 0)
+//                     // {
+//                     //     // float blue = mask[p].b / 255f;
+//                     //     // color[p] = Color32.Lerp(color[p], black, blue);
+//                     //     color[p] = mask[p].b;
+//                     //     if (color[p].a < mask[p].b) color[p].a = mask[p].b;
+//                     // }
+//                 }
 
-            Graphic_Multi_Runtime graphic = new Graphic_Multi_Runtime();
-            graphic.InitRuntime(
-                apparelTextures,
-                null,
-                Apparel.def.graphicData,
-                Apparel.def.graphicData.shaderType.Shader,
-                Apparel.DrawColor,
-                Apparel.DrawColorTwo,
-                Apparel.def.graphicData.shaderParameters,
-                Apparel.def.graphicData.renderQueue
-            );
+//                 apparelTextures[i].SetPixels32(color);
+//                 apparelTextures[i].Apply(true, false);
+//             }
 
-            result = graphic;
+//             apparelTextures[3] = apparelTextures[1];
 
-            return true;
-        }
+//             CustomApparelGraphic graphic = new CustomApparelGraphic();
+//             graphic.Create(apparelTextures);
 
-        private static Texture2D[] LoadTextures(string path, ref int size)
-        {
-            Texture2D[] textures =
-            {
-                ContentFinder<Texture2D>.Get(path + "_north", false),
-                ContentFinder<Texture2D>.Get(path + "_east", false),
-                ContentFinder<Texture2D>.Get(path + "_south", false),
-                null
-            };
+//             result = graphic;
 
-            ReadTexture(ref textures[0], size);
-            ReadTexture(ref textures[1], size);
-            ReadTexture(ref textures[2], size);
-            if (textures[0] == null || textures[1] == null || textures[2] == null)
-                return null;
+//             return true;
+//         }
 
-            if (size == 0) size = textures[0].width;
-            if (size == 0)
-                return null;
+//         private static Texture2D[] LoadTextures(string path, ref int size)
+//         {
+//             Texture2D[] textures =
+//             {
+//                 ContentFinder<Texture2D>.Get(path + "_north", false),
+//                 ContentFinder<Texture2D>.Get(path + "_east", false),
+//                 ContentFinder<Texture2D>.Get(path + "_south", false),
+//                 null
+//             };
 
-            return textures;
-        }
+//             ReadTexture(ref textures[0], size);
+//             ReadTexture(ref textures[1], size);
+//             ReadTexture(ref textures[2], size);
+//             if (textures[0] == null || textures[1] == null || textures[2] == null)
+//                 return null;
 
-        private static void ReadTexture(ref Texture2D texture, int reqSize)
-        {
-            reqSize = (reqSize > 0) ? reqSize : texture.width;
+//             if (size == 0) size = textures[0].width;
+//             if (size == 0)
+//                 return null;
 
-            if (texture == null)
-                return;
+//             return textures;
+//         }
 
-            RenderTexture rt = RenderTexture.GetTemporary(reqSize, reqSize, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.sRGB);
-            RenderTexture prev = RenderTexture.active;
-            UnityEngine.Graphics.Blit(texture, rt);
-            RenderTexture.active = rt;
+//         private static void ReadTexture(ref Texture2D texture, int reqSize)
+//         {
+//             reqSize = (reqSize > 0) ? reqSize : texture.width;
 
-            texture = new Texture2D(reqSize, reqSize, TextureFormat.RGBA32, true);
-            texture.ReadPixels(new Rect(0, 0, reqSize, reqSize), 0, 0);
-            texture.Apply(true, false);
+//             if (texture == null)
+//                 return;
 
-            RenderTexture.active = prev;
-            RenderTexture.ReleaseTemporary(rt);
-            texture.filterMode = FilterMode.Bilinear;
-            texture.wrapMode = TextureWrapMode.Clamp;
-        }
-    }
-}
+//             RenderTexture rt = RenderTexture.GetTemporary(reqSize, reqSize, 0, RenderTextureFormat.ARGB32,
+//             RenderTextureReadWrite.sRGB); RenderTexture prev = RenderTexture.active;
+//             UnityEngine.Graphics.Blit(texture, rt);
+//             RenderTexture.active = rt;
+
+//             texture = new Texture2D(reqSize, reqSize, TextureFormat.RGBA32, true);
+//             texture.ReadPixels(new Rect(0, 0, reqSize, reqSize), 0, 0);
+//             texture.Apply(true, false);
+
+//             RenderTexture.active = prev;
+//             RenderTexture.ReleaseTemporary(rt);
+//             texture.filterMode = FilterMode.Bilinear;
+//             texture.wrapMode = TextureWrapMode.Clamp;
+//         }
+//     }
+// }
