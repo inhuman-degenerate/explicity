@@ -14,22 +14,22 @@ namespace Explicity
         {
             if (Input.GetKeyDown(KeyCode.N))
             {
-                height += 0.02f;
+                height += 0.01f;
                 Log.Message(height);
             }
             if (Input.GetKeyDown(KeyCode.M))
             {
-                height -= 0.02f;
+                height -= 0.01f;
                 Log.Message(height);
             }
             if (Input.GetKeyDown(KeyCode.V))
             {
-                width += 0.02f;
+                height -= 0.005f;
                 Log.Message(width);
             }
             if (Input.GetKeyDown(KeyCode.B))
             {
-                width -= 0.02f;
+                height += 0.005f;
                 Log.Message(width);
             }
             if (Input.GetKeyDown(KeyCode.L))

@@ -17,10 +17,7 @@ namespace Explicity
 
         public override bool CanDrawNow(PawnRenderNode node, PawnDrawParms parms)
         {
-            // if (!base.CanDrawNow(node, parms) || !ExplicityMod.Settings.DrawBodyParts)
-            //     return false;
-
-            if (!ExplicityMod.Settings.DrawBodyParts)
+            if (!base.CanDrawNow(node, parms) || !ExplicityMod.Settings.DrawBodyParts)
                 return false;
 
             // if (ExplicityUtility.IsChestCovered(parms.pawn))
@@ -47,7 +44,7 @@ namespace Explicity
         public override Graphic GraphicFor(Pawn pawn)
         {
             ExplicityHediff hediff = ExplicityUtility.GetHediff(pawn, HediffDefOf.Explicity_Breasts);
-            if (hediff == null || ExplicityUtility.IsChestCovered(pawn))
+            if (hediff == null)
                 return null;
 
             string path = $"Things/Pawn/Humanlike/Breasts/Breasts_{pawn.story.bodyType.defName}_{hediff.Scale}";

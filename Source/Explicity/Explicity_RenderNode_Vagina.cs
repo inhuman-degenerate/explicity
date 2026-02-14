@@ -5,20 +5,20 @@ using RimWorld;
 
 namespace Explicity
 {
-    public class PawnRenderNodeWorker_Anus : PawnRenderNodeWorker_Explicity
+    public class PawnRenderNodeWorker_Vagina : PawnRenderNodeWorker_Explicity
     {
         // public override Vector3 OffsetFor(PawnRenderNode node, PawnDrawParms parms, out Vector3 pivot)
         // {
         //     pivot = PivotFor(node, parms);
         //     float offsetY = 0f;
 
-        //     PawnRenderNodeProperties_Anus props = node.Props as PawnRenderNodeProperties_Anus;
-        //     // if (props.TryGetOffset(parms.pawn.story.bodyType, out var values))
-        //     // {
-        //     //     offsetY = values.OffsetY;
-        //     // }
+        //     PawnRenderNodeProperties_Vagina props = node.Props as PawnRenderNodeProperties_Vagina;
+        //     if (props.TryGetOffset(parms.pawn.story.bodyType, out var values))
+        //     {
+        //         offsetY = parms.facing == Rot4.North ? values.OffsetYNorth : values.OffsetY;
+        //     }
 
-        //     return new Vector3(0, 0.003f, offsetY);
+        //     return new Vector3(0, 0.002f, offsetY);
         // }
 
         public override bool CanDrawNow(PawnRenderNode node, PawnDrawParms parms)
@@ -30,22 +30,21 @@ namespace Explicity
         }
     }
 
-    public class PawnRenderNodeProperties_Anus : PawnRenderNodeProperties_Explicity
+    public class PawnRenderNodeProperties_Vagina : PawnRenderNodeProperties_Explicity
     {
-        public PawnRenderNodeProperties_Anus()
+        public PawnRenderNodeProperties_Vagina()
         {
-            workerClass = typeof(PawnRenderNodeWorker_Anus);
-            nodeClass = typeof(PawnRenderNode_Anus);
-            visibleFacing = new List<Rot4> { Rot4.North };
+            workerClass = typeof(PawnRenderNodeWorker_Vagina);
+            nodeClass = typeof(PawnRenderNode_Vagina);
+            visibleFacing = new List<Rot4> { Rot4.North, Rot4.South };
         }
 
         // public class OffsetPosition
         // {
         //     public BodyTypeDef BodyType;
         //     public float OffsetY;
+        //     public float OffsetYNorth;
         // }
-
-
 
         // public List<OffsetPosition> BodyTypeOffset;
         // public Dictionary<BodyTypeDef, OffsetPosition> CachedOffsets;
@@ -68,21 +67,22 @@ namespace Explicity
         // }
     }
 
-    public class PawnRenderNode_Anus : PawnRenderNode
+    public class PawnRenderNode_Vagina : PawnRenderNode
     {
-        public PawnRenderNode_Anus(Pawn pawn, PawnRenderNodeProperties props, PawnRenderTree tree) : base(pawn, props, tree) { }
+        public PawnRenderNode_Vagina(Pawn pawn, PawnRenderNodeProperties props, PawnRenderTree tree) : base(pawn, props, tree) { }
 
         public override Graphic GraphicFor(Pawn pawn)
         {
-            ExplicityHediff hediff = ExplicityUtility.GetHediff(pawn, HediffDefOf.Explicity_Anus);
+            HediffDef hediffDef = ExplicityMod.GenderWorks ? GenderWorks.HediffDefOf.SEX_Womb : HediffDefOf.Explicity_Vagina;
+            ExplicityHediff hediff = ExplicityUtility.GetHediff(pawn, hediffDef);
             if (hediff == null)
                 return null;
 
-            string path = $"Things/Pawn/Humanlike/Anus/Anus_{hediff.Scale}";
-            if (ContentFinder<Texture2D>.Get(path, false) == null)
+            string path = $"Things/Pawn/Humanlike/Vagina/Vagina_{hediff.Scale}";
+            if (ContentFinder<Texture2D>.Get(path + "_south", false) == null)
                 return null;
 
-            return GraphicDatabase.Get<Graphic_Single>(path, ShaderUtility.GetSkinShader(pawn), Vector2.one, pawn.story.SkinColor);
+            return GraphicDatabase.Get<Graphic_Multi>(path, ShaderUtility.GetSkinShader(pawn), Vector2.one, pawn.story.SkinColor);
         }
     }
 }

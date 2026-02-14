@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+    <Explicity.BodyTypeOffsetDef>
+        <defName>Explicity_BodyTypeOffsetDef_Anus</defName>
+        <DepthNorth>0.003</DepthNorth>
+        <Depth>0</Depth>
+        <Offset>
+            <li>
+                <BodyType>Fat</BodyType>
+                <OffsetY>-0.44</OffsetY>
+            </li>
+            <!--  -->
+            <li>
+                <BodyType>Female</BodyType>
+                <OffsetY>-0.42</OffsetY>
+            </li>
+            <!--  -->
+            <li>
+                <BodyType>Hulk</BodyType>
+                <OffsetY>-0.58</OffsetY>
+            </li>
+            <!--  -->
+            <li>
+                <BodyType>Male</BodyType>
+                <OffsetY>-0.40</OffsetY>
+            </li>
+            <!--  -->
+            <li>
+                <BodyType>Thin</BodyType>
+                <OffsetY>-0.40</OffsetY>
+            </li>
+        </Offset>
+    </Explicity.BodyTypeOffsetDef>
+    <!--  -->
+    <Explicity.BodyTypeOffsetDef>
+        <defName>Explicity_BodyTypeOffsetDef_Penis</defName>
+        <!-- Draw behind vagina when facing north -->
+        <DepthNorth>0.001</DepthNorth>
+        <!-- Draw infront of vagina when facing south -->
+        <Depth>0.003</Depth>
+        <Offset>
+            <li>
+                <BodyType>Fat</BodyType>
+                <OffsetY>-0.52</OffsetY>
+                <OffsetYSide>-0.44</OffsetYSide>
+                <OffsetXSide>0.34</OffsetXSide>
+            </li>
+            <!--  -->
+            <li>
+                <BodyType>Female</BodyType>
+                <OffsetY>-0.50</OffsetY>
+                <OffsetYSide>-0.42</OffsetYSide>
+                <OffsetXSide>0.10</OffsetXSide>
+            </li>
+            <!--  -->
+            <li>
+                <BodyType>Hulk</BodyType>
+                <OffsetY>-0.64</OffsetY>
+                <OffsetYSide>-0.60</OffsetYSide>
+                <OffsetXSide>0.04</OffsetXSide>
+            </li>
+            <!--  -->
+            <li>
+                <BodyType>Male</BodyType>
+                <OffsetY>-0.46</OffsetY>
+                <OffsetYSide>-0.40</OffsetYSide>
+                <OffsetXSide>0.08</OffsetXSide>
+            </li>
+            <!--  -->
+            <li>
+                <BodyType>Thin</BodyType>
+                <OffsetY>-0.46</OffsetY>
+                <OffsetYSide>-0.42</OffsetYSide>
+            </li>
+        </Offset>
+    </Explicity.BodyTypeOffsetDef>
+    <!--  -->
+    <Explicity.BodyTypeOffsetDef>
+        <defName>Explicity_BodyTypeOffsetDef_Vagina</defName>
+        <DepthNorth>0.002</DepthNorth>
+        <Depth>0.002</Depth>
+        <Offset>
+            <li>
+                <BodyType>Fat</BodyType>
+                <OffsetY>-0.53</OffsetY>
+                <OffsetYNorth>-0.51</OffsetYNorth>
+            </li>
+            <!--  -->
+            <li>
+                <BodyType>Female</BodyType>
+                <OffsetY>-0.51</OffsetY>
+                <OffsetYNorth>-0.51</OffsetYNorth>
+            </li>
+            <!--  -->
+            <li>
+                <BodyType>Hulk</BodyType>
+                <OffsetY>-0.655</OffsetY>
+                <OffsetYNorth>-0.665</OffsetYNorth>
+            </li>
+            <!--  -->
+            <li>
+                <BodyType>Male</BodyType>
+                <OffsetY>-0.475</OffsetY>
+                <OffsetYNorth>-0.455</OffsetYNorth>
+            </li>
+            <!--  -->
+            <li>
+                <BodyType>Thin</BodyType>
+                <OffsetY>-0.455</OffsetY>
+                <OffsetYNorth>-0.455</OffsetYNorth>
+            </li>
+        </Offset>
+    </Explicity.BodyTypeOffsetDef>
+</Defs>

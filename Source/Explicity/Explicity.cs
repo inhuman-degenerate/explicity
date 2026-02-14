@@ -5,12 +5,20 @@ namespace Explicity
 {
     public class ExplicityMod : Mod
     {
-        public static bool GenderWorks;
+        public static bool Intimacy
+        {
+            get => LoadedModManager.RunningModsListForReading.Any(mod => mod.Name == "Intimacy - A Lovin' Expansion");
+        }
+
+        public static bool GenderWorks
+        {
+            get => LoadedModManager.RunningModsListForReading.Any(mod => mod.Name == "Intimacy - Gender Works");
+        }
+
         public static ExplicitySettings Settings;
 
         public ExplicityMod(ModContentPack content) : base(content)
         {
-            GenderWorks = LoadedModManager.RunningModsListForReading.Any(mod => mod.PackageId == "LovelyDovey.Sex.WithRosaline");
             Settings = GetSettings<ExplicitySettings>();
 
             var harmony = new Harmony("InhumanDegenerate.Explicity");

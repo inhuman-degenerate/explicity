@@ -70,30 +70,29 @@ namespace Explicity
     {
         public static void Postfix(ref Pawn __result)
         {
-            if (ExplicityMod.GenderWorks)
-            {
-
-            }
-
             BodyPartRecord anus = ExplicityUtility.GetBodyPart(__result, BodyPartDefOf.Explicity_Anus);
+            BodyPartRecord chest = ExplicityUtility.GetBodyPart(__result, BodyPartDefOf.Explicity_Chest);
+            BodyPartRecord genitals = ExplicityUtility.GetBodyPart(__result, BodyPartDefOf.Explicity_Genitals);
+
             if (anus != null) ExplicityUtility.AddHediff(__result, HediffDefOf.Explicity_Anus, anus);
 
-            //
+            if (ExplicityMod.GenderWorks)
+            {
+                Hediff phallor = ExplicityUtility.GetHediff(__result, GenderWorks.HediffDefOf.SEX_Penis);
+                Hediff gestor = ExplicityUtility.GetHediff(__result, GenderWorks.HediffDefOf.SEX_Womb);
+                bool isPhallor = phallor != null;
+                bool isGestor = gestor != null;
 
-            // Hediff phallor = ExplicityUtility.GetHediff(__result, Intimacy.HediffDefOf.SEX_Penis);
-            // Hediff gestor = ExplicityUtility.GetHediff(__result, Intimacy.HediffDefOf.SEX_Womb);
-            // bool isPhallor = phallor != null;
-            // bool isGestor = gestor != null;
+                if (isPhallor) ExplicityUtility.SizeHediff(__result, phallor, GenderWorks.BodyPartDefOf.SEX_Reproductives);
+                if (isGestor) ExplicityUtility.SizeHediff(__result, gestor, GenderWorks.BodyPartDefOf.SEX_Reproductives);
 
-            // if (isPhallor) ExplicityUtility.SizeHediff(__result, phallor, Intimacy.BodyPartDefOf.SEX_Reproduction);
-            // if (isGestor) ExplicityUtility.SizeHediff(__result, gestor, Intimacy.BodyPartDefOf.SEX_Reproduction);
+                if (ExplicityUtility.ShouldHaveBreasts(__result, isPhallor, isGestor))
+                {
+                    if (chest != null) ExplicityUtility.AddHediff(__result, HediffDefOf.Explicity_Breasts, chest);
+                }
 
-            //
-
-            // if (!ExplicityUtility.ShouldHaveBreasts(__result, isPhallor, isGestor))
-            //     return;
-
-            BodyPartRecord genitals = ExplicityUtility.GetBodyPart(__result, BodyPartDefOf.Explicity_Genitals);
+                return;
+            }
 
             if (__result.gender != Gender.Female)
             {
@@ -101,10 +100,8 @@ namespace Explicity
                 return;
             }
 
-            if (genitals != null) ExplicityUtility.AddHediff(__result, HediffDefOf.Explicity_Vagina, genitals);
-
-            BodyPartRecord chest = ExplicityUtility.GetBodyPart(__result, BodyPartDefOf.Explicity_Chest);
             if (chest != null) ExplicityUtility.AddHediff(__result, HediffDefOf.Explicity_Breasts, chest);
+            if (genitals != null) ExplicityUtility.AddHediff(__result, HediffDefOf.Explicity_Vagina, genitals);
         }
     }
 }

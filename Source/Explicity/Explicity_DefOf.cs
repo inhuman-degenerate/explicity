@@ -20,6 +20,14 @@ namespace Explicity
         public static HediffDef Explicity_Vagina;
     }
 
+    public static class Intimacy
+    {
+        public static class NeedDefOf
+        {
+            public static readonly NeedDef SEX_Intimacy = DefDatabase<NeedDef>.GetNamed("SEX_Intimacy", false);
+        }
+    }
+
     public static class GenderWorks
     {
         public static class BodyPartDefOf

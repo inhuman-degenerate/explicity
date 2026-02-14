@@ -6,17 +6,17 @@
         <permanentInjuryChanceFactor>0</permanentInjuryChanceFactor>
         <canSuggestAmputation>false</canSuggestAmputation>
     </BodyPartDef>
-
+    <!--  -->
     <BodyPartDef ParentName="DegeneracyPartBase">
         <defName>Explicity_Anus</defName>
         <label>anus</label>
     </BodyPartDef>
-
+    <!--  -->
     <BodyPartDef ParentName="DegeneracyPartBase">
         <defName>Explicity_Chest</defName>
         <label>chest</label>
     </BodyPartDef>
-
+    <!--  -->
     <BodyPartDef ParentName="DegeneracyPartBase">
         <defName>Explicity_Genitals</defName>
         <label>genitals</label>

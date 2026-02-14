@@ -8,7 +8,7 @@
         <allowMothballIfLowPriorityWorldPawn>true</allowMothballIfLowPriorityWorldPawn>
         <keepOnBodyPartRestoration>true</keepOnBodyPartRestoration>
     </HediffDef>
-
+    <!--  -->
     <HediffDef ParentName="Explicity_BodypartHediffBase">
         <defName>Explicity_Anus</defName>
         <label>anus</label>
@@ -18,10 +18,11 @@
             <li Class="Explicity.PawnRenderNodeProperties_Anus">
                 <parentTagDef>Body</parentTagDef>
                 <anchorTag>Body</anchorTag>
+                <BodyTypeOffset>Explicity_BodyTypeOffsetDef_Anus</BodyTypeOffset>
             </li>
         </renderNodeProperties>
     </HediffDef>
-
+    <!--  -->
     <HediffDef ParentName="Explicity_BodypartHediffBase">
         <defName>Explicity_Breasts</defName>
         <label>breasts</label>
@@ -34,7 +35,7 @@
             </li>
         </renderNodeProperties>
     </HediffDef>
-
+    <!--  -->
     <HediffDef ParentName="Explicity_BodypartHediffBase">
         <defName>Explicity_Penis</defName>
         <label>penis</label>
@@ -44,14 +45,22 @@
             <li Class="Explicity.PawnRenderNodeProperties_Penis">
                 <parentTagDef>Body</parentTagDef>
                 <anchorTag>Body</anchorTag>
+                <BodyTypeOffset>Explicity_BodyTypeOffsetDef_Penis</BodyTypeOffset>
             </li>
         </renderNodeProperties>
     </HediffDef>
-
+    <!--  -->
     <HediffDef ParentName="Explicity_BodypartHediffBase">
         <defName>Explicity_Vagina</defName>
         <label>vagina</label>
         <description>A biological human vagina.</description>
         <hediffClass>Explicity.VaginaHediff</hediffClass>
+        <renderNodeProperties>
+            <li Class="Explicity.PawnRenderNodeProperties_Vagina">
+                <parentTagDef>Body</parentTagDef>
+                <anchorTag>Body</anchorTag>
+                <BodyTypeOffset>Explicity_BodyTypeOffsetDef_Vagina</BodyTypeOffset>
+            </li>
+        </renderNodeProperties>
     </HediffDef>
 </Defs>

@@ -1,7 +1,0 @@
-C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\explicity\1.6\Assemblies\Explicity.dll
-C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\explicity\Source\obj\Debug\Explicity.csproj.AssemblyReference.cache
-C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\explicity\Source\obj\Debug\Explicity.GeneratedMSBuildEditorConfig.editorconfig
-C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\explicity\Source\obj\Debug\Explicity.AssemblyInfoInputs.cache
-C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\explicity\Source\obj\Debug\Explicity.AssemblyInfo.cs
-C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\explicity\Source\obj\Debug\Explicity.csproj.CoreCompileInputs.cache
-C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\explicity\Source\obj\Debug\Explicity.dll

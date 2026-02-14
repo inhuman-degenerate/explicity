@@ -12,14 +12,14 @@
                         <label>genitals</label>
                     </value>
                 </li>
-
+                <!--  -->
                 <li Class="PatchOperationReplace">
                     <xpath>/Defs/BodyPartDef[defName="SEX_Reproduction"]/hitPoints</xpath>
                     <value>
                         <hitPoints>20</hitPoints>
                     </value>
                 </li>
-
+                <!--  -->
                 <!-- HediffDef -->
                 <!-- SEX_Penis -->
                 <li Class="PatchOperationAdd">
@@ -28,21 +28,34 @@
                         <hediffClass>Explicity.PenisHediff</hediffClass>
                     </value>
                 </li>
-
+                <!--  -->
+                <li Class="PatchOperationAdd">
+                    <xpath>/Defs/HediffDef[defName="SEX_Penis"]</xpath>
+                    <value>
+                        <renderNodeProperties>
+                            <li Class="Explicity.PawnRenderNodeProperties_Penis">
+                                <parentTagDef>Body</parentTagDef>
+                                <anchorTag>Body</anchorTag>
+                                <BodyTypeOffset>Explicity_BodyTypeOffsetDef_Penis</BodyTypeOffset>
+                            </li>
+                        </renderNodeProperties>
+                    </value>
+                </li>
+                <!--  -->
                 <li Class="PatchOperationReplace">
                     <xpath>/Defs/HediffDef[defName="SEX_Penis"]/label</xpath>
                     <value>
                         <label>penis</label>
                     </value>
                 </li>
-
+                <!--  -->
                 <li Class="PatchOperationReplace">
                     <xpath>/Defs/HediffDef[defName="SEX_Penis"]/description</xpath>
                     <value>
                         <description>A biological human penis.</description>
                     </value>
                 </li>
-
+                <!--  -->
                 <!-- SEX_Womb -->
                 <li Class="PatchOperationAdd">
                     <xpath>/Defs/HediffDef[defName="SEX_Womb"]</xpath>
@@ -50,21 +63,34 @@
                         <hediffClass>Explicity.VaginaHediff</hediffClass>
                     </value>
                 </li>
-
+                <!--  -->
+                <li Class="PatchOperationAdd">
+                    <xpath>/Defs/HediffDef[defName="SEX_Womb"]</xpath>
+                    <value>
+                        <renderNodeProperties>
+                            <li Class="Explicity.PawnRenderNodeProperties_Vagina">
+                                <parentTagDef>Body</parentTagDef>
+                                <anchorTag>Body</anchorTag>
+                                <BodyTypeOffset>Explicity_BodyTypeOffsetDef_Vagina</BodyTypeOffset>
+                            </li>
+                        </renderNodeProperties>
+                    </value>
+                </li>
+                <!--  -->
                 <li Class="PatchOperationReplace">
                     <xpath>/Defs/HediffDef[defName="SEX_Womb"]/label</xpath>
                     <value>
                         <label>vagina</label>
                     </value>
                 </li>
-
+                <!--  -->
                 <li Class="PatchOperationReplace">
                     <xpath>/Defs/HediffDef[defName="SEX_Womb"]/description</xpath>
                     <value>
                         <description>A biological human vagina.</description>
                     </value>
                 </li>
-
+                <!--  -->
                 <!-- ThingDef -->
                 <!-- SEX_Penis -->
                 <li Class="PatchOperationReplace">
@@ -73,15 +99,14 @@
                         <label>penis</label>
                     </value>
                 </li>
-
+                <!--  -->
                 <li Class="PatchOperationReplace">
                     <xpath>/Defs/ThingDef[defName="SEX_Penis"]/description</xpath>
                     <value>
-                        <description>A biological human penis. Penises produce sperm cells for
-                            reproduction.</description>
+                        <description>A biological human penis. Penises produce sperm cells for reproduction.</description>
                     </value>
                 </li>
-
+                <!--  -->
                 <!-- ThingDef -->
                 <!-- SEX_Womb -->
                 <li Class="PatchOperationReplace">
@@ -90,12 +115,11 @@
                         <label>vagina</label>
                     </value>
                 </li>
-
+                <!--  -->
                 <li Class="PatchOperationReplace">
                     <xpath>/Defs/ThingDef[defName="SEX_Womb"]/description</xpath>
                     <value>
-                        <description>A biological human vagina and uterus. Uteri produce ovum cells
-                            for reproduction.</description>
+                        <description>A biological human vagina and uterus. Uteri produce ovum cellsfor reproduction.</description>
                     </value>
                 </li>
             </operations>
